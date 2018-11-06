@@ -1,0 +1,14 @@
+{
+  "name": "reach-router-hash-history",
+  "version": "0.0.1",
+  "description": "use @react/router with hash history",
+  "main": "index.js",
+  "author": "j3l11234",
+  "bugs": "https://github.com/j3l11234/reach-router-hash-history/issues",
+  "homepage": "hhttps://github.com/j3l11234/reach-router-hash-history#readme",
+  "repository": "https://github.com/j3l11234/reach-router-hash-history.git",
+  "license": "MIT",
+  "dependencies": {
+    "history": "^4.7.2"
+  }
+}
