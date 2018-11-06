@@ -1,6 +1,6 @@
 {
   "name": "reach-router-hash-history",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "use @react/router with hash history",
   "main": "index.js",
   "author": "j3l11234",

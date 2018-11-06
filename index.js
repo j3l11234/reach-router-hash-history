@@ -60,4 +60,4 @@ let createHistory = () => {
   };
 };
 
-export { createHistory };
+export { createHashHistory };

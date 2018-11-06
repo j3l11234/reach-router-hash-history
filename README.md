@@ -14,9 +14,9 @@ I hope one day the tools will be deprecated
 import React from 'react';
 import ReactDom from 'react-dom';
 import { LocationProvider } from '@reach/router';
-import { createHashHistory } from "reach-router-hash-history";
+import { createHistory } from "reach-router-hash-history";
 
-const history = createHashHistory();
+const history = createHistory();
 ReactDom.render(
   <LocationProvider history={history}>
     <Component />
