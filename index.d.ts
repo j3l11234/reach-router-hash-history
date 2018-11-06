@@ -1,3 +1,3 @@
-import { History } from "@reach/router";
+import { HistorySource } from "@reach/router";
 
-export function createHistory(): History;
+export function createHashSource(): HistorySource;

@@ -1,63 +1,72 @@
-import { createHashHistory } from 'history';
+// take some code from
+// https://github.com/ReactTraining/history/blob/master/modules/createHashHistory.js
 
-let getLocation = history => {
-  return Object.assign({}, history.location, {
-    state: history.state,
-    key: (history.state && history.state.key) || 'initial'
-  });
-};
+function getHashPath() {
+  // We can't use window.location.hash here because it's not
+  // consistent across browsers - Firefox will pre-decode it!
+  const href = window.location.href;
+  const hashIndex = href.indexOf('#');
+  return hashIndex === -1 ? '' : href.substring(hashIndex + 1);
+}
 
-let createHistory = () => {
-  const history = createHashHistory();
-  let listeners = [];
-  let location = getLocation(history);
-  let transitioning = false;
-  let resolveTransition = () => {};
+function pushHashPath(path) {
+  window.location.hash = '#' + path;
+}
 
-  history.listen(() => {
-    location = getLocation(history);
-  });
+function replaceHashPath(path) {
+  const hashIndex = window.location.href.indexOf('#');
+  window.location.replace(
+    window.location.href.slice(0, hashIndex >= 0 ? hashIndex : 0) + '#' + path
+  );
+}
+
+let createHashSource = (initialPathname = '/') => {
+  let index = 0;
+  // let stack = [{ pathname: initialPathname, search: '' }];
+  // let states = [];
 
   return {
     get location() {
-      return location;
+      return { pathname: getHashPath(), search: '' };
+      // return stack[index];
     },
-
-    get transitioning() {
-      return transitioning;
-    },
-
-    _onTransitionComplete() {
-      transitioning = false;
-      resolveTransition();
-    },
-
-    listen(listener) {
-      return history.listen(listener);
-    },
-
-    navigate(to, { state, replace = false } = {}) {
-      // const state_ = Object.assign({}, state, { key: String(Date.now()) });
-      // state will be ignored on hash history
-
-      // try...catch iOS Safari limits to 100 pushState calls
-      try {
-        if (transitioning || replace) {
-          history.replace(to, undefined);
-        } else {
-          history.push(to, undefined);
-        }
-      } catch (e) {
-        history.location[replace ? 'replace' : 'assign'](to);
+    addEventListener(name, fn) {
+      if (name === 'popstate') {
+        window.addEventListener('hashchange', fn);
       }
-
-      location = getLocation(history);
-      transitioning = true;
-      let transition = new Promise(res => { resolveTransition = res; return res });
-      listeners.forEach(listener => listener({ location, action: 'PUSH' }));
-      return transition;
+    },
+    removeEventListener(name, fn) {
+      if (name === 'popstate') {
+        window.addEventListener('hashchange', fn);
+      }
+    },
+    history: {
+      get entries() {
+        return [{ pathname: getHashPath(), search: '' }];
+        // return stack;
+      },
+      get index() {
+        return index;
+      },
+      get state() {
+        return undefined;
+        // return states[index];
+      },
+      pushState(state, _, uri) {
+        pushHashPath(uri);
+        // let [pathname, search = ''] = uri.split('?');
+        // index++;
+        // stack.push({ pathname, search });
+        // states.push(state);
+      },
+      replaceState(state, _, uri) {
+        replaceHashPath(uri);
+        // let [pathname, search = ''] = uri.split('?');
+        // stack[index] = { pathname, search };
+        // states[index] = state;
+      }
     }
   };
 };
 
-export { createHashHistory };
+export { createHashSource };
