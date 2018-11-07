@@ -2,7 +2,8 @@
 # reach-router-hash-history
 
 ## Introduction
-this tools make a hash history for @reach/router
+This tools make a hash history for @reach/router  
+The third version is inspired by will-stone https://github.com/will-stone/hash-source.
 
 ╮(╯_╰)╭
 I hope one day the tools will be deprecated 
@@ -24,3 +25,8 @@ ReactDom.render(
   document.getElementById('app')
 );
 ```
+
+## Thanks
+
+will-stone  
+https://github.com/will-stone
